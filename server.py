@@ -8,7 +8,8 @@ def index():
 
 @app.route('/users')
 def users():
-    return render_template("read_all.html",users=User.get_all())
+    users = User.get_all()
+    return render_template("read_all.html", all_users = users)
 
 @app.route('/user/new')
 def new():
@@ -16,8 +17,12 @@ def new():
 
 @app.route('/user/create',methods=['POST'])
 def create():
-    print(request.form)
-    User.save(request.form)
+    data = {
+        "first_name": request.form["first_name"],
+        "last_name": request.form["last_name"],
+        "email": request.form["email"]
+    }
+    User.save(data)
     return redirect('/users')
 
 if __name__ == "__main__":
